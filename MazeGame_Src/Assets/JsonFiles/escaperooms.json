@@ -1,0 +1,49 @@
+{
+  "escaperooms": {
+    "center": {
+      "name": "start",
+      "type": "question",
+      "reference": "What applies to you most?"
+    },
+    "top-left": {
+      "name": "productive or meaning-oriented",
+      "type": "question",
+      "reference": "What would you choose?"
+    },
+    "top": {
+      "name": "productive",
+      "type": "question",
+      "reference": "What would you like most?"
+    },
+    "top-right": {
+      "name": "productive or application-oriented",
+      "type": "question",
+      "reference": "Where would you go?"
+    },
+    "right": {
+      "name": "application-oriented",
+      "type": "question",
+      "reference": "How would you proceed?"
+    },
+    "bottom-right": {
+      "name": "reproductive or application-oriented",
+      "type": "question",
+      "reference": "When would you act?"
+    },
+    "bottom": {
+      "name": "reproductive",
+      "type": "question",
+      "reference": "What is your favorite challenge?"
+    },
+    "bottom-left": {
+      "name": "reproductive or meaning-oriented",
+      "type": "question",
+      "reference": "Which tool would you bring with you?"
+    },
+    "left": {
+      "name": "meaning-oriented",
+      "type": "question",
+      "reference": "What would you do?"
+    }
+  }
+}
