@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 270794788}
   - component: {fileID: 270794789}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_bottomright
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,10 +175,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 270794786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: bottom-right
 --- !u!1 &290395824
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +284,7 @@ GameObject:
   - component: {fileID: 291423962}
   - component: {fileID: 291423963}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_topleft
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,10 +326,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 291423960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: top-left
 --- !u!1 &473994532
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +341,7 @@ GameObject:
   - component: {fileID: 473994534}
   - component: {fileID: 473994535}
   m_Layer: 0
-  m_Name: EscapeRoomTrigger
+  m_Name: ERT_middle
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -385,10 +383,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 473994532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: center
 --- !u!1001 &673485084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510,7 +507,7 @@ GameObject:
   - component: {fileID: 674921958}
   - component: {fileID: 674921959}
   m_Layer: 0
-  m_Name: EscapeRoomTrigger
+  m_Name: ERT_right
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -552,10 +549,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 674921956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: right
 --- !u!1 &808128926
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +656,7 @@ GameObject:
   - component: {fileID: 838125740}
   - component: {fileID: 838125741}
   m_Layer: 0
-  m_Name: EscapeRoomTrigger
+  m_Name: ERT_left
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,10 +698,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 838125738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: left
 --- !u!1 &992413565
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +715,7 @@ GameObject:
   - component: {fileID: 992413566}
   - component: {fileID: 992413570}
   - component: {fileID: 992413571}
+  - component: {fileID: 992413572}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -831,6 +827,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31778af5a5298b34289b62ed8b8b50f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &992413572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992413565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb5f8079bfacd144a8ade4a16f35ed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1166704150
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +851,7 @@ GameObject:
   - component: {fileID: 1166704152}
   - component: {fileID: 1166704153}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_top
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -885,10 +893,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166704150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: top
 --- !u!1 &1203799508
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,7 +908,7 @@ GameObject:
   - component: {fileID: 1203799510}
   - component: {fileID: 1203799511}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_bottomleft
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,10 +950,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1203799508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: bottom-left
 --- !u!1 &1205265500
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,7 +965,7 @@ GameObject:
   - component: {fileID: 1205265502}
   - component: {fileID: 1205265503}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_topright
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1001,10 +1007,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1205265500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: top-right
 --- !u!1 &1532147271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +1022,7 @@ GameObject:
   - component: {fileID: 1532147273}
   - component: {fileID: 1532147274}
   m_Layer: 0
-  m_Name: EscaoeRoomTrigger
+  m_Name: ERT_bottom
   m_TagString: EscapeRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,10 +1064,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1532147271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3157e80dd89f1e04c8d8d4e77f64161c, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5ff7c55ea056e46abf88972ffcad45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPosition: bottom
 --- !u!1 &1714854467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,7 +1175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036662943}
   m_Layer: 0
-  m_Name: EscapeRoomTriggerHolders
+  m_Name: EscapeRoomTriggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
