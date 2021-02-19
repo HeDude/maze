@@ -25,26 +25,6 @@ public class ReadJsonFile : MonoBehaviour
         //The JsonMapper maps the raw text to a dictionary, so we can read it like any other dictionary
         escapeRoomData = JsonMapper.ToObject(rawEscaperoomData);
         questionData = JsonMapper.ToObject(rawQuestionData);
-
-        //Sets the correct position and language for each escaperoom in the scene
-        GameObject[] escapeRooms = GameObject.FindGameObjectsWithTag("EscapeRoom");
-        
-        foreach (GameObject e in escapeRooms)
-        {
-            EscapeRoom escapeRoom = e.GetComponent<EscapeRoom>();
-            if (e.name == "ERT_topleft") { escapeRoom.Position = "top-left"; };
-            if (e.name == "ERT_top") { escapeRoom.Position = "top"; };
-            if (e.name == "ERT_topright") { escapeRoom.Position = "top-right"; };
-            if (e.name == "ERT_left") { escapeRoom.Position = "left"; };
-            if (e.name == "ERT_middle") { escapeRoom.Position = "middle"; };
-            if (e.name == "ERT_right") { escapeRoom.Position = "right"; };
-            if (e.name == "ERT_bottom-left") { escapeRoom.Position = "bottom-left"; };
-            if (e.name == "ERT_bottom") { escapeRoom.Position = "bottom"; };
-            if (e.name == "ERT_bottom-right") { escapeRoom.Position = "bottom-right"; };
-
-            escapeRoom.Language = "nl";
-
-        }
     }
 
     //Checks for collision for a trigger collider
