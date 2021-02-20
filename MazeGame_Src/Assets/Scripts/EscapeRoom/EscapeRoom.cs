@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EscapeRoom : MonoBehaviour {
-    //methods: EscapeRoom.Position, EscapeRoom.Language, EscapeRoom.Question, EscapeRoom.AnswerReproductive, EscapeRoom.AnswerApplication, EscapeRoom.AnswerMeaning en EscapeRoom.AnswerProductive
+public class EscapeRoom {
 
     public string Position { get; set; }
     public string Language { get; set; }
@@ -14,7 +13,7 @@ public class EscapeRoom : MonoBehaviour {
     public string AnswerMeaning { get; set; }
     public string AnswerProductive { get; set; }
 
-    private void Start()
+    public EscapeRoom(string _escaperooms_json, string _questions_json, string _language_json)
     {
         Question = "Which tool would you bring with you?";
         AnswerReproductive = "Survival guide";

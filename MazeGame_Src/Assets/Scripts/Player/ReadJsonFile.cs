@@ -34,7 +34,7 @@ public class ReadJsonFile : MonoBehaviour
         if(other.tag == "EscapeRoom")
         {
             //Tries to find the RoomInfo component
-            EscapeRoom escapeRoom = other.gameObject.GetComponent<EscapeRoom>();
+            EscapeRoom escapeRoom = other.gameObject.GetComponent<EscapeRoomHolder>().escapeRoom;
 
             //If the collided object has the RoomInfo component
             if (escapeRoom != null)

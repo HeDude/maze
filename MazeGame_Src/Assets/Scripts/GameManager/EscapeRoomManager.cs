@@ -12,7 +12,7 @@ public class EscapeRoomManager : MonoBehaviour
 
         foreach (GameObject e in escapeRooms)
         {
-            EscapeRoom escapeRoom = e.GetComponent<EscapeRoom>();
+            EscapeRoom escapeRoom = e.GetComponent<EscapeRoomHolder>().escapeRoom;
             if (e.name == "ERT_topleft") { escapeRoom.Position = "top-left"; };
             if (e.name == "ERT_top") { escapeRoom.Position = "top"; };
             if (e.name == "ERT_topright") { escapeRoom.Position = "top-right"; };
@@ -24,7 +24,6 @@ public class EscapeRoomManager : MonoBehaviour
             if (e.name == "ERT_bottom-right") { escapeRoom.Position = "bottom-right"; };
 
             escapeRoom.Language = "nl";
-
         }
     }
 }
