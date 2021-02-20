@@ -5,7 +5,6 @@ using UnityEngine;
 public class EscapeRoom {
 
     public string Position { get; set; }
-    public string Language { get; set; }
 
     public string Question { get; set; }
     public string AnswerReproductive { get; set; }

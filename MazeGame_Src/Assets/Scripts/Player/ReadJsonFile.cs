@@ -41,7 +41,6 @@ public class ReadJsonFile : MonoBehaviour
             {
                 //Debugs the name of the escape room depending on its position
                 Debug.Log("P: " + escapeRoom.Position);
-                Debug.Log("L: " + escapeRoom.Language);
                 Debug.Log("Q: " + escapeRoom.Question);
                 Debug.Log("A1: " + escapeRoom.AnswerApplication);
                 Debug.Log("A2: " + escapeRoom.AnswerMeaning);

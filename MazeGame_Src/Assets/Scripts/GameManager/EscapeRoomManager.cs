@@ -22,8 +22,6 @@ public class EscapeRoomManager : MonoBehaviour
             if (e.name == "ERT_bottom-left") { escapeRoom.Position = "bottom-left"; };
             if (e.name == "ERT_bottom") { escapeRoom.Position = "bottom"; };
             if (e.name == "ERT_bottom-right") { escapeRoom.Position = "bottom-right"; };
-
-            escapeRoom.Language = "nl";
         }
     }
 }
