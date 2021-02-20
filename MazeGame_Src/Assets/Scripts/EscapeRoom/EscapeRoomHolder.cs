@@ -19,7 +19,7 @@ public class EscapeRoomHolder : MonoBehaviour
     public EscapeRoom escapeRoom { get; set; }
 
     //Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         //Read the json file (The raw data from the json file)
         escaperooms_json = File.ReadAllText(Application.dataPath + "/JsonFiles/escaperooms.json");
