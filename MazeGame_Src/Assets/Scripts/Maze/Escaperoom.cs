@@ -35,11 +35,6 @@ namespace Maze
         {
             string questions_json = File.ReadAllText(Application.dataPath + "/Config/Quizes.json");
             Quizes = JsonConvert.DeserializeObject<Dictionary<string, Quiz>>(questions_json);
-            Debug.Log(Quiz.Question);
-            Debug.Log(Quiz.Reproductive);
-            Debug.Log(Quiz.Application);
-            Debug.Log(Quiz.Meaning);
-            Debug.Log(Quiz.Productive);
         }
     } 
 }
