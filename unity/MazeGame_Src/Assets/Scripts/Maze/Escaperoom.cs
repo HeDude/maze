@@ -3,6 +3,7 @@ using UnityEngine;
 using HeDude;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net;
 
 namespace Maze
 {
@@ -34,7 +35,8 @@ namespace Maze
         void Start()
         {
  //           string questions_json = File.ReadAllText(Application.dataPath + "/Config/Quizes.json");
-            string questions_json = File.ReadAllText("./Assets/Config/Quizes.json");
+//            string questions_json = File.ReadAllText("Assets/Config/Quizes.json");
+            string questions_json = (new WebClient()).DownloadString("https://game.entreprenasium.nl/maze/Config/Quizes.json");
             Quizes = JsonConvert.DeserializeObject<Dictionary<string, Quiz>>(questions_json);
         }
     } 
