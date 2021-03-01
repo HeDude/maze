@@ -33,7 +33,8 @@ namespace Maze
         /// </summary>
         void Start()
         {
-            string questions_json = File.ReadAllText(Application.dataPath + "/Config/Quizes.json");
+ //           string questions_json = File.ReadAllText(Application.dataPath + "/Config/Quizes.json");
+            string questions_json = File.ReadAllText("./Assets/Config/Quizes.json");
             Quizes = JsonConvert.DeserializeObject<Dictionary<string, Quiz>>(questions_json);
         }
     } 
