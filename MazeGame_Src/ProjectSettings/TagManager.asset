@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - EscapeRoom
+  - Question
+  - AnswerReproductive
+  - AnswerApplication
+  - AnswerMeaning
+  - AnswerProductive
+  - QuestionCanvas
   layers:
   - Default
   - TransparentFX

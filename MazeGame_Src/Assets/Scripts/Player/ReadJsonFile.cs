@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using LitJson;
 
@@ -8,25 +9,14 @@ namespace Maze
 {
     public class ReadJsonFile : MonoBehaviour
     {
-        //Data for the escape room
-        private string rawEscaperoomData;
-        private JsonData escapeRoomData;
-
-        //Data for the questions
-        private string rawQuestionData;
-        private JsonData questionData;
-
-        //Start is called before the first frame update
-        private void Start()
+        //Update is called every frame
+        private void Update()
         {
-            //Read the json file (The raw data from the json file)
-            rawEscaperoomData = File.ReadAllText(Application.dataPath + "/JsonFiles/escaperooms.json");
-            rawQuestionData = File.ReadAllText(Application.dataPath + "/JsonFiles/questions.json");
-
-            //This holds the Json object that we need to parse out into string text
-            //The JsonMapper maps the raw text to a dictionary, so we can read it like any other dictionary
-            escapeRoomData = JsonMapper.ToObject(rawEscaperoomData);
-            questionData = JsonMapper.ToObject(rawQuestionData);
+            //All question/answer canvasses face the player
+            foreach (GameObject canvas in GameObject.FindGameObjectsWithTag("QuestionCanvas"))
+            {
+                canvas.transform.forward = new Vector3(Camera.main.transform.forward.x, canvas.transform.forward.y, Camera.main.transform.forward.z);
+            }
         }
 
         //Checks for collision for a trigger collider
@@ -41,14 +31,78 @@ namespace Maze
                 //If the collided object has the RoomInfo component
                 if (escaperoom != null)
                 {
-                    //Debugs the name of the escape room depending on its position
-                    Debug.Log("P: " + escaperoom.Position);
-                    Debug.Log("Q: " + escaperoom.Quiz.Question);
-                    Debug.Log("A1: " + escaperoom.Quiz.Reproductive);
-                    Debug.Log("A2: " + escaperoom.Quiz.Application);
-                    Debug.Log("A3: " + escaperoom.Quiz.Application);
-                    Debug.Log("A4: " + escaperoom.Quiz.Productive);
+                    //Changes the question canvas to the question of the current escape room
+                    foreach (GameObject question in GameObject.FindGameObjectsWithTag("Question"))
+                    {
+                        question.GetComponent<Text>().text = escaperoom.Quiz.Question;
+                    }
+
+                    //Changes the reproductive answer canvas to the reproductive answer of the current escape room
+                    foreach (GameObject answerReproductive in GameObject.FindGameObjectsWithTag("AnswerReproductive"))
+                    {
+                        answerReproductive.GetComponent<Text>().text = escaperoom.Quiz.Reproductive;
+                    }
+
+                    //Changes the application answer canvas to the application answer of the current escape room
+                    foreach (GameObject answerApplication in GameObject.FindGameObjectsWithTag("AnswerApplication"))
+                    {
+                        answerApplication.GetComponent<Text>().text = escaperoom.Quiz.Application;
+                    }
+
+                    //Changes the meaning answer canvas to the meaning answer of the current escape room
+                    foreach (GameObject answerMeaning in GameObject.FindGameObjectsWithTag("AnswerMeaning"))
+                    {
+                        answerMeaning.GetComponent<Text>().text = escaperoom.Quiz.Meaning;
+                    }
+
+                    //Changes the productive answer canvas to the productive answer of the current escape room
+                    foreach (GameObject answerProductive in GameObject.FindGameObjectsWithTag("AnswerProductive"))
+                    {
+                        answerProductive.GetComponent<Text>().text = escaperoom.Quiz.Productive;
+                    }
                 }
+            }
+        }
+
+        //Checks whether the player has exitted a triggercollider
+        private void OnTriggerExit(Collider other)
+        {
+            //Checks whether the tag of the trigger collider is Escape Room
+            if (other.tag == "EscapeRoom")
+            {
+                //Tries to find the RoomInfo component
+                Escaperoom escaperoom = other.gameObject.GetComponent<Escaperoom>();
+
+                //Clears the text of the questions and answers
+                foreach (GameObject question in GameObject.FindGameObjectsWithTag("Question"))
+                {
+                    question.GetComponent<Text>().text = "";
+                }
+
+                //Changes the reproductive answer canvas to the reproductive answer of the current escape room
+                foreach (GameObject answerReproductive in GameObject.FindGameObjectsWithTag("AnswerReproductive"))
+                {
+                    answerReproductive.GetComponent<Text>().text = "";
+                }
+
+                //Changes the application answer canvas to the application answer of the current escape room
+                foreach (GameObject answerApplication in GameObject.FindGameObjectsWithTag("AnswerApplication"))
+                {
+                    answerApplication.GetComponent<Text>().text = "";
+                }
+
+                //Changes the meaning answer canvas to the meaning answer of the current escape room
+                foreach (GameObject answerMeaning in GameObject.FindGameObjectsWithTag("AnswerMeaning"))
+                {
+                    answerMeaning.GetComponent<Text>().text = "";
+                }
+
+                //Changes the productive answer canvas to the productive answer of the current escape room
+                foreach (GameObject answerProductive in GameObject.FindGameObjectsWithTag("AnswerProductive"))
+                {
+                    answerProductive.GetComponent<Text>().text = "";
+                }
+
             }
         }
     }
