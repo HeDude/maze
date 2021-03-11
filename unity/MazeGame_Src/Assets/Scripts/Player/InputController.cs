@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
     private GameObject player;
     private Camera playerCamera;
     [SerializeField] private float mouseRange;
+
+    private Text uiText;
 
     //Store raycast information
     RaycastHit hitInfo;
@@ -18,6 +21,10 @@ public class InputController : MonoBehaviour
         playerCamera = Camera.main;
 
         mouseRange = 5;
+
+        uiText = GameObject.Find("UIText").GetComponent<Text>();
+
+        uiText.text = "";
     }
 
     //Update is called once per frame
@@ -28,20 +35,33 @@ public class InputController : MonoBehaviour
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
         {
-            if (Input.GetMouseButtonDown(0))
+            if(hitInfo.collider.gameObject.tag == "Button") 
             {
-                if (hitInfo.collider.gameObject.name == "Reproductive")
-                    Debug.Log("Reproductive");
+                uiText.text = "Press 'left mousebutton' to interact";
 
-                if (hitInfo.collider.gameObject.name == "Application")
-                    Debug.Log("Application");
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (hitInfo.collider.gameObject.name == "Reproductive")
+                        Debug.Log("Reproductive");
 
-                if (hitInfo.collider.gameObject.name == "Productive")
-                    Debug.Log("Productive");
+                    if (hitInfo.collider.gameObject.name == "Application")
+                        Debug.Log("Application");
 
-                if (hitInfo.collider.gameObject.name == "Meaning")
-                    Debug.Log("Meaning");
+                    if (hitInfo.collider.gameObject.name == "Productive")
+                        Debug.Log("Productive");
+
+                    if (hitInfo.collider.gameObject.name == "Meaning")
+                        Debug.Log("Meaning");
+                }
             }
+            else
+            {
+                uiText.text = "";
+            }
+        }
+        else
+        {
+            uiText.text = "";
         }
 
     }
