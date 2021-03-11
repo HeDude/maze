@@ -11,6 +11,7 @@ TagManager:
   - AnswerMeaning
   - AnswerProductive
   - QuestionCanvas
+  - Button
   layers:
   - Default
   - TransparentFX
