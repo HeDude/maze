@@ -61,16 +61,10 @@ public class MovementController : MonoBehaviour
     //Checks if the player can jump
     private void CheckToJump()
     {
-        //Checks if player has pressed space
+        //The player jumps when the player presses space and is on the ground
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //Checks if the player is grounded
             if (IsGrounded())
-            {
-                //Adds vertical force to the player
                 rb.AddForce(0, jumpForce, 0, ForceMode.Impulse);
-            }
-        }
     }
 
     //Checks whether player is grounded
