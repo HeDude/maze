@@ -3,55 +3,75 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputController : MonoBehaviour
+namespace Maze
 {
-    private GameObject player;
-    private Camera playerCamera;
-    [SerializeField] private float mouseRange;
-
-    private Text uiText;
-
-    //Store raycast information
-    RaycastHit hitInfo;
-
-    //Start is called before the first frame update
-    private void Start()
+    public class InputController : MonoBehaviour
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerCamera = Camera.main;
+        private Camera playerCamera;
+        [SerializeField] private float mouseRange;
 
-        mouseRange = 5;
+        private string reproductive = "Reproductive";
+        private string application = "Application";
+        private string productive = "Productive";
+        private string meaning = "Meaning";
 
-        uiText = GameObject.Find("UIText").GetComponent<Text>();
+        private Text uiText;
 
-        uiText.text = "";
-    }
+        //Store raycast information
+        RaycastHit hitInfo;
 
-    //Update is called once per frame
-    private void Update()
-    {
-        
-        //Shoots a raycast from the main character
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+        GameObject[] doors;
+
+        //Start is called before the first frame update
+        private void Start()
         {
-            if(hitInfo.collider.gameObject.tag == "Button") 
+            playerCamera = Camera.main;
+
+            mouseRange = 5;
+
+            uiText = GameObject.Find("UIText").GetComponent<Text>();
+
+            uiText.text = "";
+
+            doors = GameObject.FindGameObjectsWithTag("Door");
+        }
+
+        //Update is called once per frame
+        private void Update()
+        {
+            //Checks whether clicks on a answer button
+            CheckAnswerButtonPress();
+        }
+
+        //Checks whether clicks on a answer button
+        private void CheckAnswerButtonPress()
+        {
+            //Shoots a raycast from the main character
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
             {
-                uiText.text = "Press 'left mousebutton' to interact";
-
-                if (Input.GetMouseButtonDown(0))
+                if (hitInfo.collider.gameObject.tag == "Button")
                 {
-                    if (hitInfo.collider.gameObject.name == "Reproductive")
-                        Debug.Log("Reproductive");
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                    if (hitInfo.collider.gameObject.name == "Application")
-                        Debug.Log("Application");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (hitInfo.collider.gameObject.name == reproductive)
+                            CloseDoor(reproductive, false);
 
-                    if (hitInfo.collider.gameObject.name == "Productive")
-                        Debug.Log("Productive");
+                        if (hitInfo.collider.gameObject.name == application)
+                            CloseDoor(application, false);
 
-                    if (hitInfo.collider.gameObject.name == "Meaning")
-                        Debug.Log("Meaning");
+                        if (hitInfo.collider.gameObject.name == productive)
+                            CloseDoor(productive, false);
+
+                        if (hitInfo.collider.gameObject.name == meaning)
+                            CloseDoor(meaning, false);
+                    }
+                }
+                else
+                {
+                    uiText.text = "";
                 }
             }
             else
@@ -59,31 +79,41 @@ public class InputController : MonoBehaviour
                 uiText.text = "";
             }
         }
-        else
+
+        //Closes or opens specific door depending on state
+        private void CloseDoor(string _type, bool _state)
         {
-            uiText.text = "";
+            foreach (GameObject door in doors)
+                if (door.name == _type)
+                    door.SetActive(_state);
         }
 
-    }
-
-    //Returns the object the player is hovering over
-    GameObject ReturnClickedObject(out RaycastHit hit)
-    {
-        //Clears the target
-        GameObject target = null;
-
-        //Shoots a raycast from the main character
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, mouseRange))
+        //Checks for collision for a trigger collider
+        private void OnTriggerEnter(Collider other)
         {
-            if (hit.collider.gameObject.tag == "Button")
+            //Checks whether the tag of the collided object is Escape Room
+            if (other.tag == "EscapeRoom")
             {
-                //Set the hit gameobject as the target
-                target = hit.collider.gameObject;
+                foreach (GameObject door in doors)
+                    StartCoroutine(OpenAllDoors(door.name, true));
             }
         }
 
-        //Return the target
-        return target;
+        private void OnTriggerExit(Collider other)
+        {
+            //Checks whether the tag of the collided object is Escape Room
+            if (other.tag == "EscapeRoom")
+            {
+                foreach (GameObject door in doors)
+                    StartCoroutine(OpenAllDoors(door.name, false));
+            }
+        }
+
+        private IEnumerator OpenAllDoors(string _type, bool _state)
+        {
+            yield return new WaitForSeconds(1);
+            foreach (GameObject door in doors)
+                CloseDoor(_type, _state);
+        }
     }
 }

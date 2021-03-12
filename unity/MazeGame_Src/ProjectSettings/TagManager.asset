@@ -12,6 +12,7 @@ TagManager:
   - AnswerProductive
   - QuestionCanvas
   - Button
+  - Door
   layers:
   - Default
   - TransparentFX
