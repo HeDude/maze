@@ -70,14 +70,10 @@ namespace Maze
                     }
                 }
                 else
-                {
                     uiText.text = "";
-                }
             }
             else
-            {
                 uiText.text = "";
-            }
         }
 
         //Closes or opens specific door depending on state
@@ -93,26 +89,21 @@ namespace Maze
         {
             //Checks whether the tag of the collided object is Escape Room
             if (other.tag == "EscapeRoom")
-            {
                 foreach (GameObject door in doors)
                     StartCoroutine(OpenAllDoors(door.name, true));
-            }
         }
 
         private void OnTriggerExit(Collider other)
         {
             //Checks whether the tag of the collided object is Escape Room
             if (other.tag == "EscapeRoom")
-            {
                 foreach (GameObject door in doors)
-                    StartCoroutine(OpenAllDoors(door.name, false));
-            }
+                    CloseDoor(door.name, false);
         }
 
         private IEnumerator OpenAllDoors(string _type, bool _state)
         {
             yield return new WaitForSeconds(1);
-            foreach (GameObject door in doors)
                 CloseDoor(_type, _state);
         }
     }
