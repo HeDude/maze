@@ -100,6 +100,9 @@ namespace Maze
             if (other.tag == "EscapeRoom")
                 foreach (GameObject door in doors)
                     CloseDoor(door.name, false);
+            
+            foreach (GameObject container in puzzleContainers)
+                container.SetActive(false);
         }
 
         private IEnumerator OpenAllDoors(string _type, bool _state)
@@ -108,68 +111,55 @@ namespace Maze
                 CloseDoor(_type, _state);
         }
 
+        //Start specific puzzle depending on type
         private void StartPuzzle(Matrix3by3 _position, string _type)
         {
-            switch (_position)
+            if (_type == reproductive)
+                StartReproductivePuzzle(_position); //tell me how to learn
+            if (_type == application)
+                StartApplicationPuzzle(_position); //I like to find out how i learn by doing
+            if (_type == productive)
+                StartProductivePuzzle(_position); //Determine how i learn by myself
+            if (_type == meaning)
+                StartMeaningPuzzle(_position); //investigate learning
+        }
+
+        //Start reproductive puzzle depending on which room you are in
+        private void StartReproductivePuzzle(Matrix3by3 _position)
+        {
+            Debug.Log("REPODRUCTIVE PUZZLE");
+            if (_position == Matrix3by3.Center)
+                CloseDoor(reproductive, false);
+        }
+
+        //Start meaning puzzle depending on which room you are in
+        private void StartMeaningPuzzle(Matrix3by3 _position)
+        {
+            Debug.Log("MEANING PUZZLE");
+
+            if (_position == Matrix3by3.Center)
+                CloseDoor(meaning, false);
+        }
+
+        //Start productive puzzle depending on which room you are in
+        private void StartProductivePuzzle(Matrix3by3 _position)
+        {
+            Debug.Log("PODRUCTIVE PUZZLE");
+            if(_position == Matrix3by3.Center)
             {
-                case Matrix3by3.Center:
-                    if (_type == reproductive)
-                        StartCenterReproductivePuzzle(); //tell me how to learn
-                    if (_type == application)
-                        StartCenterApplicationPuzzle(); //I like to find out how i learn by doing
-                    if (_type == productive)
-                        StartCenterProductivePuzzle(); //Determine how i learn by myself
-                    if (_type == meaning)
-                        StartCenterMeaningPuzzle(); //investigate learning
-                    break;
-                case Matrix3by3.TopLeft:
-                    break;
-                case Matrix3by3.Top:
-                    break;
-                case Matrix3by3.TopRight:
-                    break;
-                case Matrix3by3.Right:
-                    break;
-                case Matrix3by3.BottomRight:
-                    break;
-                case Matrix3by3.Bottom:
-                    break;
-                case Matrix3by3.BottomLeft:
-                    break;
-                case Matrix3by3.Left:
-                    break;
-                default:
-                    break;
+                foreach (GameObject puzzleContainer in puzzleContainers)
+                    if (puzzleContainer.name == "CenterProductive")
+                        puzzleContainer.SetActive(true);
+                CloseDoor(productive, false);
             }
         }
 
-        private void StartCenterReproductivePuzzle()
-        {
-            Debug.Log("REPODRUCTIVE PUZZLE");
-            CloseDoor(reproductive, false);
-        }
-
-        private void StartCenterMeaningPuzzle()
-        {
-            Debug.Log("MEANING PUZZLE");
-            
-            foreach (GameObject puzzleContainer in puzzleContainers)
-                if (puzzleContainer.name == "CenterMeaning")
-                    puzzleContainer.SetActive(true);
-
-            CloseDoor(meaning, false);
-        }
-
-        private void StartCenterProductivePuzzle()
-        {
-            Debug.Log("PODRUCTIVE PUZZLE");
-            CloseDoor(productive, false);
-        }
-
-        private void StartCenterApplicationPuzzle()
+        //Start application puzzle depending on which room you are in
+        private void StartApplicationPuzzle(Matrix3by3 _position)
         {
             Debug.Log("APPLICATION PUZZLE");
-            CloseDoor(application, false);
+            if (_position == Matrix3by3.Center)
+                CloseDoor(application, false);
         }
     }
 }
