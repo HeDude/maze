@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using HeDude;
 
 namespace Maze
 {
@@ -18,9 +19,13 @@ namespace Maze
         private Text uiText;
 
         //Store raycast information
-        RaycastHit hitInfo;
+        private RaycastHit hitInfo;
 
-        GameObject[] doors;
+        private GameObject[] doors;
+        private GameObject[] puzzleContainers;
+
+        //Store current escape room position
+        Matrix3by3 currentPosition;
 
         //Start is called before the first frame update
         private void Start()
@@ -34,6 +39,10 @@ namespace Maze
             uiText.text = "";
 
             doors = GameObject.FindGameObjectsWithTag("Door");
+            puzzleContainers = GameObject.FindGameObjectsWithTag("PuzzleContainer");
+
+            foreach (GameObject container in puzzleContainers)
+                container.SetActive(false);
         }
 
         //Update is called once per frame
@@ -55,19 +64,7 @@ namespace Maze
                     uiText.text = "Press 'left mousebutton' to interact";
 
                     if (Input.GetMouseButtonDown(0))
-                    {
-                        if (hitInfo.collider.gameObject.name == reproductive)
-                            CloseDoor(reproductive, false);
-
-                        if (hitInfo.collider.gameObject.name == application)
-                            CloseDoor(application, false);
-
-                        if (hitInfo.collider.gameObject.name == productive)
-                            CloseDoor(productive, false);
-
-                        if (hitInfo.collider.gameObject.name == meaning)
-                            CloseDoor(meaning, false);
-                    }
+                        StartPuzzle(currentPosition, hitInfo.collider.gameObject.name);
                 }
                 else
                     uiText.text = "";
@@ -89,8 +86,12 @@ namespace Maze
         {
             //Checks whether the tag of the collided object is Escape Room
             if (other.tag == "EscapeRoom")
+            {
                 foreach (GameObject door in doors)
                     StartCoroutine(OpenAllDoors(door.name, true));
+
+                currentPosition = other.gameObject.GetComponent<Escaperoom>().Position;
+            }
         }
 
         private void OnTriggerExit(Collider other)
@@ -105,6 +106,70 @@ namespace Maze
         {
             yield return new WaitForSeconds(1);
                 CloseDoor(_type, _state);
+        }
+
+        private void StartPuzzle(Matrix3by3 _position, string _type)
+        {
+            switch (_position)
+            {
+                case Matrix3by3.Center:
+                    if (_type == reproductive)
+                        StartCenterReproductivePuzzle(); //tell me how to learn
+                    if (_type == application)
+                        StartCenterApplicationPuzzle(); //I like to find out how i learn by doing
+                    if (_type == productive)
+                        StartCenterProductivePuzzle(); //Determine how i learn by myself
+                    if (_type == meaning)
+                        StartCenterMeaningPuzzle(); //investigate learning
+                    break;
+                case Matrix3by3.TopLeft:
+                    break;
+                case Matrix3by3.Top:
+                    break;
+                case Matrix3by3.TopRight:
+                    break;
+                case Matrix3by3.Right:
+                    break;
+                case Matrix3by3.BottomRight:
+                    break;
+                case Matrix3by3.Bottom:
+                    break;
+                case Matrix3by3.BottomLeft:
+                    break;
+                case Matrix3by3.Left:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void StartCenterReproductivePuzzle()
+        {
+            Debug.Log("REPODRUCTIVE PUZZLE");
+            CloseDoor(reproductive, false);
+        }
+
+        private void StartCenterMeaningPuzzle()
+        {
+            Debug.Log("MEANING PUZZLE");
+            
+            foreach (GameObject puzzleContainer in puzzleContainers)
+                if (puzzleContainer.name == "CenterMeaning")
+                    puzzleContainer.SetActive(true);
+
+            CloseDoor(meaning, false);
+        }
+
+        private void StartCenterProductivePuzzle()
+        {
+            Debug.Log("PODRUCTIVE PUZZLE");
+            CloseDoor(productive, false);
+        }
+
+        private void StartCenterApplicationPuzzle()
+        {
+            Debug.Log("APPLICATION PUZZLE");
+            CloseDoor(application, false);
         }
     }
 }
