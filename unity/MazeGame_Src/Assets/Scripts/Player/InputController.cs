@@ -24,6 +24,8 @@ namespace Maze
         private GameObject[] doors;
         private GameObject[] puzzleContainers;
 
+        private bool puzzleIsActive;
+
         //Store current escape room position
         Matrix3by3 currentPosition;
 
@@ -43,6 +45,8 @@ namespace Maze
 
             foreach (GameObject container in puzzleContainers)
                 container.SetActive(false);
+
+            puzzleIsActive = false;
         }
 
         //Update is called once per frame
@@ -50,6 +54,32 @@ namespace Maze
         {
             //Checks whether clicks on a answer button
             CheckAnswerButtonPress();
+
+            if(puzzleIsActive)
+            {
+                //Shoots a raycast from the main character
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                {
+                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
+                    {
+                        uiText.text = "Press 'left mousebutton' to interact";
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            CloseDoor(productive, false);
+
+                            foreach (GameObject puzzleContainer in puzzleContainers)
+                                if (puzzleContainer.name == "CenterProductive")
+                                    puzzleContainer.SetActive(false);
+                        }
+                    }
+                    else
+                        uiText.text = "";
+                }
+                else
+                    uiText.text = "";
+            }
         }
 
         //Checks whether clicks on a answer button
@@ -150,7 +180,8 @@ namespace Maze
                 foreach (GameObject puzzleContainer in puzzleContainers)
                     if (puzzleContainer.name == "CenterProductive")
                         puzzleContainer.SetActive(true);
-                CloseDoor(productive, false);
+
+                puzzleIsActive = true;
             }
         }
 
