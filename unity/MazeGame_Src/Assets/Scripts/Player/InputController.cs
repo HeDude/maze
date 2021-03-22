@@ -24,7 +24,10 @@ namespace Maze
         private GameObject[] doors;
         private GameObject[] puzzleContainers;
 
-        private bool puzzleIsActive;
+        private bool meaningPuzzleIsActive;
+        private bool applicationPuzzleIsActive;
+        private bool productivePuzzleIsActive;
+        private bool reproductivePuzzleIsActive;
 
         //Store current escape room position
         Matrix3by3 currentPosition;
@@ -46,7 +49,10 @@ namespace Maze
             foreach (GameObject container in puzzleContainers)
                 container.SetActive(false);
 
-            puzzleIsActive = false;
+            meaningPuzzleIsActive = false;
+            applicationPuzzleIsActive = false;
+            productivePuzzleIsActive = false;
+            reproductivePuzzleIsActive = false;
         }
 
         //Update is called once per frame
@@ -55,31 +61,8 @@ namespace Maze
             //Checks whether clicks on a answer button
             CheckAnswerButtonPress();
 
-            if(puzzleIsActive)
-            {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
-                {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
-
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(productive, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterProductive")
-                                    puzzleContainer.SetActive(false);
-                        }
-                    }
-                    else
-                        uiText.text = "";
-                }
-                else
-                    uiText.text = "";
-            }
+            //Checks whether a puzzle is currently is active and if it should stop
+            CheckToStopPuzzle();
         }
 
         //Checks whether clicks on a answer button
@@ -159,7 +142,13 @@ namespace Maze
         {
             Debug.Log("REPODRUCTIVE PUZZLE");
             if (_position == Matrix3by3.Center)
-                CloseDoor(reproductive, false);
+            {
+                foreach (GameObject puzzleContainer in puzzleContainers)
+                    if (puzzleContainer.name == "CenterReproductive")
+                        puzzleContainer.SetActive(true);
+
+                reproductivePuzzleIsActive = true;
+            }
         }
 
         //Start meaning puzzle depending on which room you are in
@@ -168,7 +157,13 @@ namespace Maze
             Debug.Log("MEANING PUZZLE");
 
             if (_position == Matrix3by3.Center)
-                CloseDoor(meaning, false);
+            {
+                foreach (GameObject puzzleContainer in puzzleContainers)
+                    if (puzzleContainer.name == "CenterMeaning")
+                        puzzleContainer.SetActive(true);
+
+                meaningPuzzleIsActive = true;
+            }
         }
 
         //Start productive puzzle depending on which room you are in
@@ -181,7 +176,7 @@ namespace Maze
                     if (puzzleContainer.name == "CenterProductive")
                         puzzleContainer.SetActive(true);
 
-                puzzleIsActive = true;
+                productivePuzzleIsActive = true;
             }
         }
 
@@ -190,7 +185,131 @@ namespace Maze
         {
             Debug.Log("APPLICATION PUZZLE");
             if (_position == Matrix3by3.Center)
-                CloseDoor(application, false);
+            {
+                foreach (GameObject puzzleContainer in puzzleContainers)
+                    if (puzzleContainer.name == "CenterApplication")
+                        puzzleContainer.SetActive(true);
+
+                applicationPuzzleIsActive = true;
+            }
+        }
+
+        //Stops the puzzle
+        private void CheckToStopPuzzle()
+        {
+            if(reproductivePuzzleIsActive)
+            {
+                //Shoots a raycast from the main character
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                {
+                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
+                    {
+                        uiText.text = "Press 'left mousebutton' to interact";
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            CloseDoor(reproductive, false);
+
+                            foreach (GameObject puzzleContainer in puzzleContainers)
+                                if (puzzleContainer.name == "CenterReproductive")
+                                    puzzleContainer.SetActive(false);
+
+                            reproductivePuzzleIsActive = false;
+                        }
+                    }
+                    else
+                        uiText.text = "";
+                }
+                else
+                    uiText.text = "";
+            }
+
+
+            if (productivePuzzleIsActive)
+            {
+                //Shoots a raycast from the main character
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                {
+                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
+                    {
+                        uiText.text = "Press 'left mousebutton' to interact";
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            CloseDoor(productive, false);
+
+                            foreach (GameObject puzzleContainer in puzzleContainers)
+                                if (puzzleContainer.name == "CenterProductive")
+                                    puzzleContainer.SetActive(false);
+
+                            productivePuzzleIsActive = false;
+                        }
+                    }
+                    else
+                        uiText.text = "";
+                }
+                else
+                    uiText.text = "";
+            }
+
+
+            if (meaningPuzzleIsActive)
+            {
+                //Shoots a raycast from the main character
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                {
+                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
+                    {
+                        uiText.text = "Press 'left mousebutton' to interact";
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            CloseDoor(meaning, false);
+
+                            foreach (GameObject puzzleContainer in puzzleContainers)
+                                if (puzzleContainer.name == "CenterMeaning")
+                                    puzzleContainer.SetActive(false);
+
+                            meaningPuzzleIsActive = false;
+                        }
+                    }
+                    else
+                        uiText.text = "";
+                }
+                else
+                    uiText.text = "";
+            }
+
+            if (applicationPuzzleIsActive)
+            {
+                //Shoots a raycast from the main character
+                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                {
+                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
+                    {
+                        uiText.text = "Press 'left mousebutton' to interact";
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            CloseDoor(application, false);
+
+                            foreach (GameObject puzzleContainer in puzzleContainers)
+                                if (puzzleContainer.name == "CenterApplication")
+                                    puzzleContainer.SetActive(false);
+
+                            applicationPuzzleIsActive = false;
+                        }
+                    }
+                    else
+                        uiText.text = "";
+                }
+                else
+                    uiText.text = "";
+            }
         }
     }
 }
