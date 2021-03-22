@@ -13,6 +13,8 @@ TagManager:
   - QuestionCanvas
   - Button
   - Door
+  - PuzzleContainer
+  - PuzzleFinish
   layers:
   - Default
   - TransparentFX

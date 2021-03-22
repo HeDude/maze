@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 004a881ae06790742a9a61dfe96846a3
+guid: ac7daa2647222a54f97b6e7c6afebd31
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Floor
-    second: {fileID: 2100000, guid: 86c6c0fa7ecabee47aa8d3333a2f3c08, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: 7d09b6b007077c54cbce1cbb06b24793, type: 2}
+      name: PillarBase
+    second: {fileID: 2100000, guid: 52144b492fb2e344181a3278133595ee, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -54,7 +49,7 @@ ModelImporter:
     importCameras: 0
     importLights: 0
     fileIdsGeneration: 2
-    swapUVChannels: 0
+    swapUVChannels: 1
     generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
