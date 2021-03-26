@@ -14,6 +14,8 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody rb;
 
+    [SerializeField] private bool jumpEnabled;
+
     //Start is called before the first frame update
     private void Start()
     {
@@ -31,7 +33,8 @@ public class MovementController : MonoBehaviour
     //Update is called once per frame
     private void Update()
     {
-        CheckToJump();
+        if(jumpEnabled)
+            CheckToJump();
     }
 
     private void FixedUpdate()
