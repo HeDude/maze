@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class CameraController : MonoBehaviour
 {
     //Properties
+    [SerializeField] private float maxSensitivity;
     [SerializeField] private float sensitivity;
     [SerializeField] private float smoothing;
 
@@ -22,7 +23,8 @@ public class CameraController : MonoBehaviour
         Cursor.visible = false;
 
         //Sets sensitivity and smoothing to 2
-        sensitivity = 2f;
+        maxSensitivity = 2f;
+        sensitivity = maxSensitivity;
         smoothing = 2f;
 
         //Finds player in scene
@@ -56,5 +58,17 @@ public class CameraController : MonoBehaviour
         //Updates player rotation
         transform.localRotation = Quaternion.AngleAxis(-currentLookingPosition.y, Vector3.right);
         player.transform.localRotation = Quaternion.AngleAxis(currentLookingPosition.x, player.transform.up);
+    }
+
+    //Disables sensitivity
+    public void DisableSensitivity()
+    {
+        sensitivity = 0.0f;
+    }
+
+    //Enables sensitivity
+    public void EnableSensitivity()
+    {
+        sensitivity = maxSensitivity;
     }
 }

@@ -9,6 +9,7 @@ namespace Maze
     public class InputController : MonoBehaviour
     {
         private Camera playerCamera;
+        private CameraController cameraController;
         [SerializeField] private float mouseRange;
 
         private string reproductive = "Reproductive";
@@ -38,6 +39,7 @@ namespace Maze
         private void Start()
         {
             playerCamera = Camera.main;
+            cameraController = playerCamera.transform.gameObject.GetComponent<CameraController>();
 
             mouseRange = 5;
 
@@ -325,10 +327,20 @@ namespace Maze
         {
             if(Input.GetKeyDown(KeyCode.M))
             {
-                if(mazeMap.activeSelf)
+                if (mazeMap.activeSelf)
+                {
                     mazeMap.SetActive(false);
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    cameraController.EnableSensitivity();
+                }
                 else
+                {
                     mazeMap.SetActive(true);
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    cameraController.DisableSensitivity();
+                }
             }
         }
     }
