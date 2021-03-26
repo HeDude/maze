@@ -29,6 +29,8 @@ namespace Maze
         private bool productivePuzzleIsActive;
         private bool reproductivePuzzleIsActive;
 
+        private GameObject mazeMap;
+
         //Store current escape room position
         Matrix3by3 currentPosition;
 
@@ -45,6 +47,9 @@ namespace Maze
 
             doors = GameObject.FindGameObjectsWithTag("Door");
             puzzleContainers = GameObject.FindGameObjectsWithTag("PuzzleContainer");
+            mazeMap = GameObject.Find("Map");
+
+            mazeMap.SetActive(false);
 
             foreach (GameObject container in puzzleContainers)
                 container.SetActive(false);
@@ -63,6 +68,9 @@ namespace Maze
 
             //Checks whether a puzzle is currently is active and if it should stop
             CheckToStopPuzzle();
+
+            //Show map
+            CheckToShowMap();
         }
 
         //Checks whether clicks on a answer button
@@ -309,6 +317,18 @@ namespace Maze
                 }
                 else
                     uiText.text = "";
+            }
+        }
+
+        //Checks whether to show the map
+        private void CheckToShowMap()
+        {
+            if(Input.GetKeyDown(KeyCode.M))
+            {
+                if(mazeMap.activeSelf)
+                    mazeMap.SetActive(false);
+                else
+                    mazeMap.SetActive(true);
             }
         }
     }
