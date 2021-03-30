@@ -78,19 +78,13 @@ namespace Maze
         //Checks whether clicks on a answer button
         private void CheckAnswerButtonPress()
         {
-            //Shoots a raycast from the main character
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+            GameObject answer = ReturnRaycastGameobject();
+            if (answer != null && answer.tag == "Button")
             {
-                if (hitInfo.collider.gameObject.tag == "Button")
-                {
-                    uiText.text = "Press 'left mousebutton' to interact";
+                uiText.text = "Press 'left mousebutton' to interact";
 
-                    if (Input.GetMouseButtonDown(0))
-                        StartPuzzle(currentPosition, hitInfo.collider.gameObject.name);
-                }
-                else
-                    uiText.text = "";
+                if (Input.GetMouseButtonDown(0))
+                    StartPuzzle(currentPosition, hitInfo.collider.gameObject.name);
             }
             else
                 uiText.text = "";
@@ -207,119 +201,88 @@ namespace Maze
         //Stops the puzzle
         private void CheckToStopPuzzle()
         {
-            if(reproductivePuzzleIsActive)
+            //The reproductive puzzle
+            if (reproductivePuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(reproductive, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterReproductive")
-                                    puzzleContainer.SetActive(false);
-
-                            reproductivePuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Reproductive", "CenterReproductive", ref reproductivePuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
-
+            //The productive puzzle
             if (productivePuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(productive, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterProductive")
-                                    puzzleContainer.SetActive(false);
-
-                            productivePuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Productive", "CenterProductive", ref productivePuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
-
+            //The meaning puzzle
             if (meaningPuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(meaning, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterMeaning")
-                                    puzzleContainer.SetActive(false);
-
-                            meaningPuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Meaning", "CenterMeaning", ref meaningPuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
+            //The application puzzle
             if (applicationPuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if(answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(application, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterApplication")
-                                    puzzleContainer.SetActive(false);
-
-                            applicationPuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Application", "CenterApplication", ref applicationPuzzleIsActive);
                 }
                 else
-                    uiText.text = "";
+                    uiText.text = ""; 
             }
+        }
+
+        //Ends the puzzle
+        private void EndPuzzle(string _type, string _puzzle, ref bool _currentPuzzle)
+        {
+            CloseDoor(_type, false);
+
+            foreach (GameObject puzzleContainer in puzzleContainers)
+                if (puzzleContainer.name == _puzzle)
+                    puzzleContainer.SetActive(false);
+
+            _currentPuzzle = false;
+        }
+
+        //Sends a raycast
+        private GameObject ReturnRaycastGameobject()
+        {
+            //Shoots a raycast from the main camera
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                return hitInfo.collider.gameObject;
+
+            return null;
         }
 
         //Checks whether to show the map
