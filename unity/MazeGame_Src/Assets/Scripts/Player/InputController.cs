@@ -250,7 +250,7 @@ namespace Maze
             if (applicationPuzzleIsActive)
             {
                 GameObject answer = ReturnRaycastGameobject();
-                if(answer != null && answer.tag == "PuzzleFinish")
+                if(answer != null && answer.tag == "PuzzleDraggable")
                 {
                     uiText.text = "Press 'left mousebutton' to interact";
 
