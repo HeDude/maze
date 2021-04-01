@@ -31,6 +31,10 @@ namespace Maze
         private bool reproductivePuzzleIsActive;
 
         private GameObject mazeMap;
+        private bool isDragging;
+
+        private Vector3 offset;
+        private Vector3 screenPosition;
 
         //Store current escape room position
         Matrix3by3 currentPosition;
@@ -60,6 +64,7 @@ namespace Maze
             applicationPuzzleIsActive = false;
             productivePuzzleIsActive = false;
             reproductivePuzzleIsActive = false;
+            isDragging = false;
         }
 
         //Update is called once per frame
@@ -250,15 +255,59 @@ namespace Maze
             if (applicationPuzzleIsActive)
             {
                 GameObject answer = ReturnRaycastGameobject();
-                if(answer != null && answer.tag == "PuzzleDraggable")
-                {
-                    uiText.text = "Press 'left mousebutton' to interact";
 
-                    if (Input.GetMouseButtonDown(0))
-                        EndPuzzle("Application", "CenterApplication", ref applicationPuzzleIsActive);
+                DragObject(answer);
+
+                //if (Input.GetMouseButtonDown(0))
+                    //EndPuzzle("Application", "CenterApplication", ref applicationPuzzleIsActive);
+            }
+        }
+
+        //Drags object
+        private void DragObject(GameObject _draggableObject)
+        {
+            if (_draggableObject != null && _draggableObject.tag == "PuzzleDraggable")
+            {
+                //If player clicks the left mouse button
+                if (Input.GetMouseButtonDown(0))
+                {
+                    //Sets isDragging to true
+                    isDragging = true;
+                    Debug.Log("target position :" + _draggableObject.transform.position);
+
+                    //Convert world position to screen position.
+                    screenPosition = Camera.main.WorldToScreenPoint(_draggableObject.transform.position);
+                    offset = _draggableObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z));
                 }
-                else
-                    uiText.text = ""; 
+
+                //Stops dragging when the player stops holding left mouse button
+                if (Input.GetMouseButtonUp(0))
+                {
+                    isDragging = false;
+                    _draggableObject.GetComponent<Rigidbody>().isKinematic = false;
+                }
+
+                uiText.text = "Press 'left mousebutton' to interact";
+
+                //If the player is dragging the mouse
+                if (isDragging)
+                {
+                    //track mouse position.
+                    Vector3 currentScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
+
+                    //convert screen position to world position with offset changes.
+                    Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + offset;
+
+                    //It will update target gameobject's current postion.
+                    _draggableObject.transform.position = currentPosition;
+
+                    _draggableObject.GetComponent<Rigidbody>().isKinematic = true;
+                }
+            }
+            else
+            {
+                isDragging = false;
+                uiText.text = "";
             }
         }
 
