@@ -258,6 +258,8 @@ namespace Maze
 
                 DragObject(answer);
 
+
+
                 //if (Input.GetMouseButtonDown(0))
                     //EndPuzzle("Application", "CenterApplication", ref applicationPuzzleIsActive);
             }
