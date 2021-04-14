@@ -2,43 +2,7 @@ fileFormatVersion: 2
 guid: d4d7b92d036681f4d9d8d2b089ea5704
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable:
-  - first:
-      74: 3076984943649348367
-    second: Base.001|Circle.004Action.001
-  - first:
-      74: 6119246779605137106
-    second: Base.001|Key.002Action.001
-  - first:
-      74: -2922244829357642277
-    second: Circle.001|Circle.004Action.001
-  - first:
-      74: 864721541382958906
-    second: Circle.001|Key.002Action.001
-  - first:
-      74: 4151610701233148761
-    second: Plane.001|Circle.004Action.001
-  - first:
-      74: 1994577413413309302
-    second: Plane.001|Key.002Action.001
-  - first:
-      74: 5653543288349834934
-    second: Stick.002|Circle.004Action.001
-  - first:
-      74: -1826776482514902233
-    second: Stick.002|Key.002Action.001
-  - first:
-      74: 7334272064947405260
-    second: Armature|Circle.004Action.001
-  - first:
-      74: -2553860331904900490
-    second: Armature|Key.002Action.001
-  - first:
-      74: 6797470475094853303
-    second: slider|Circle.004Action.001
-  - first:
-      74: 6841169301799920854
-    second: slider|Key.002Action.001
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -81,7 +45,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
