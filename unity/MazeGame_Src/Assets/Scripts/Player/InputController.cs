@@ -31,6 +31,7 @@ namespace Maze
         private bool reproductivePuzzleIsActive;
 
         private GameObject mazeMap;
+        private GameObject pauseMenu;
         private bool isDragging;
 
         private Vector3 offset;
@@ -54,8 +55,10 @@ namespace Maze
             doors = GameObject.FindGameObjectsWithTag("Door");
             puzzleContainers = GameObject.FindGameObjectsWithTag("PuzzleContainer");
             mazeMap = GameObject.Find("Map");
+            pauseMenu = GameObject.Find("PauseMenu");
 
             mazeMap.SetActive(false);
+            pauseMenu.SetActive(false);
 
             foreach (GameObject container in puzzleContainers)
                 container.SetActive(false);
@@ -78,6 +81,9 @@ namespace Maze
 
             //Show map
             CheckToShowMap();
+
+            //Show map
+            CheckToShowPauseMenu();
         }
 
         //Checks whether clicks on a answer button
@@ -354,6 +360,30 @@ namespace Maze
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.Confined;
                     cameraController.DisableSensitivity();
+                }
+            }
+        }
+
+        //Checks whether to show the map
+        private void CheckToShowPauseMenu()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (pauseMenu.activeSelf)
+                {
+                    pauseMenu.SetActive(false);
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    cameraController.EnableSensitivity();
+                    Time.timeScale = 1;
+                }
+                else
+                {
+                    pauseMenu.SetActive(true);
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    cameraController.DisableSensitivity();
+                    Time.timeScale = 0;
                 }
             }
         }
