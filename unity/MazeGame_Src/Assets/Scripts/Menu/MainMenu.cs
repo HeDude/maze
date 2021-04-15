@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    private GameObject mainMenu;
+    private GameObject credits;
+
+    //Runs at the start of the game
+    private void Start()
+    {
+        mainMenu = GameObject.Find("MM");
+        credits = GameObject.Find("Credits");
+
+        mainMenu.SetActive(true);
+        credits.SetActive(false);
+    }
+
     //Runs when the button has been pressed
     public void PressButton(string _buttonType)
     {
@@ -24,7 +37,12 @@ public class MainMenu : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
                 break;
             case "credits":
-                Debug.Log("credits");
+                mainMenu.SetActive(false);
+                credits.SetActive(true);
+                break;
+            case "returntomenu":
+                mainMenu.SetActive(true);
+                credits.SetActive(false);
                 break;
             case "restart":
                 SceneManager.LoadScene("Maze");
