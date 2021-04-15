@@ -14,8 +14,11 @@ public class MainMenu : MonoBehaviour
         mainMenu = GameObject.Find("MM");
         credits = GameObject.Find("Credits");
 
-        mainMenu.SetActive(true);
-        credits.SetActive(false);
+       if(mainMenu != null)
+            mainMenu.SetActive(true);
+
+       if(credits != null)
+            credits.SetActive(false);
     }
 
     //Runs when the button has been pressed

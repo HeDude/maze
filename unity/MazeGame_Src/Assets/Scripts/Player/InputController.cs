@@ -84,6 +84,9 @@ namespace Maze
 
             //Show map
             CheckToShowPauseMenu();
+
+            //Show map
+            CheckToTeleport();
         }
 
         //Checks whether clicks on a answer button
@@ -386,6 +389,22 @@ namespace Maze
                     Time.timeScale = 0;
                 }
             }
+        }
+
+        //Checks whether the player should teleport
+        private void CheckToTeleport()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                transform.position = new Vector3(-310, 1, 115);
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                transform.position = new Vector3(113, 1, 115);
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                transform.position = new Vector3(-120, 1, 350);
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                transform.position = new Vector3(-120, 1, -150);
         }
     }
 }
