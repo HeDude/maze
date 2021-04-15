@@ -14,10 +14,11 @@ public class MainMenu : MonoBehaviour
                 SceneManager.LoadScene("Maze");
                 break;
             case "credits":
-                Debug.Log("start");
+                Debug.Log("credits");
                 break;
             case "quit":
                 Application.Quit();
+                Debug.Log("quit");
                 break;
             default:
                 Debug.Log("nothin");
