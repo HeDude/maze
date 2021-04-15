@@ -15,6 +15,7 @@ TagManager:
   - Door
   - PuzzleContainer
   - PuzzleFinish
+  - PuzzleDraggable
   layers:
   - Default
   - TransparentFX

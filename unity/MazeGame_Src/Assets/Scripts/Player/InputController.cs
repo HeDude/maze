@@ -9,6 +9,7 @@ namespace Maze
     public class InputController : MonoBehaviour
     {
         private Camera playerCamera;
+        private CameraController cameraController;
         [SerializeField] private float mouseRange;
 
         private string reproductive = "Reproductive";
@@ -29,6 +30,13 @@ namespace Maze
         private bool productivePuzzleIsActive;
         private bool reproductivePuzzleIsActive;
 
+        private GameObject mazeMap;
+        private GameObject pauseMenu;
+        private bool isDragging;
+
+        private Vector3 offset;
+        private Vector3 screenPosition;
+
         //Store current escape room position
         Matrix3by3 currentPosition;
 
@@ -36,6 +44,7 @@ namespace Maze
         private void Start()
         {
             playerCamera = Camera.main;
+            cameraController = playerCamera.transform.gameObject.GetComponent<CameraController>();
 
             mouseRange = 5;
 
@@ -45,6 +54,11 @@ namespace Maze
 
             doors = GameObject.FindGameObjectsWithTag("Door");
             puzzleContainers = GameObject.FindGameObjectsWithTag("PuzzleContainer");
+            mazeMap = GameObject.Find("Map");
+            pauseMenu = GameObject.Find("PauseMenu");
+
+            mazeMap.SetActive(false);
+            pauseMenu.SetActive(false);
 
             foreach (GameObject container in puzzleContainers)
                 container.SetActive(false);
@@ -53,6 +67,7 @@ namespace Maze
             applicationPuzzleIsActive = false;
             productivePuzzleIsActive = false;
             reproductivePuzzleIsActive = false;
+            isDragging = false;
         }
 
         //Update is called once per frame
@@ -63,24 +78,27 @@ namespace Maze
 
             //Checks whether a puzzle is currently is active and if it should stop
             CheckToStopPuzzle();
+
+            //Show map
+            CheckToShowMap();
+
+            //Show map
+            CheckToShowPauseMenu();
+
+            //Show map
+            CheckToTeleport();
         }
 
         //Checks whether clicks on a answer button
         private void CheckAnswerButtonPress()
         {
-            //Shoots a raycast from the main character
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+            GameObject answer = ReturnRaycastGameobject();
+            if (answer != null && answer.tag == "Button")
             {
-                if (hitInfo.collider.gameObject.tag == "Button")
-                {
-                    uiText.text = "Press 'left mousebutton' to interact";
+                uiText.text = "Press 'left mousebutton' to interact";
 
-                    if (Input.GetMouseButtonDown(0))
-                        StartPuzzle(currentPosition, hitInfo.collider.gameObject.name);
-                }
-                else
-                    uiText.text = "";
+                if (Input.GetMouseButtonDown(0))
+                    StartPuzzle(currentPosition, hitInfo.collider.gameObject.name);
             }
             else
                 uiText.text = "";
@@ -197,119 +215,196 @@ namespace Maze
         //Stops the puzzle
         private void CheckToStopPuzzle()
         {
-            if(reproductivePuzzleIsActive)
+            //The reproductive puzzle
+            if (reproductivePuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(reproductive, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterReproductive")
-                                    puzzleContainer.SetActive(false);
-
-                            reproductivePuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Reproductive", "CenterReproductive", ref reproductivePuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
-
+            //The productive puzzle
             if (productivePuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(productive, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterProductive")
-                                    puzzleContainer.SetActive(false);
-
-                            productivePuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Productive", "CenterProductive", ref productivePuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
-
+            //The meaning puzzle
             if (meaningPuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+                if (answer != null && answer.tag == "PuzzleFinish")
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    uiText.text = "Press 'left mousebutton' to interact";
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(meaning, false);
-
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterMeaning")
-                                    puzzleContainer.SetActive(false);
-
-                            meaningPuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                    if (Input.GetMouseButtonDown(0))
+                        EndPuzzle("Meaning", "CenterMeaning", ref meaningPuzzleIsActive);
                 }
                 else
                     uiText.text = "";
             }
 
+            //The application puzzle
             if (applicationPuzzleIsActive)
             {
-                //Shoots a raycast from the main character
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                GameObject answer = ReturnRaycastGameobject();
+
+                DragObject(answer);
+
+
+
+                //if (Input.GetMouseButtonDown(0))
+                    //EndPuzzle("Application", "CenterApplication", ref applicationPuzzleIsActive);
+            }
+        }
+
+        //Drags object
+        private void DragObject(GameObject _draggableObject)
+        {
+            if (_draggableObject != null && _draggableObject.tag == "PuzzleDraggable")
+            {
+                //If player clicks the left mouse button
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (hitInfo.collider.gameObject.tag == "PuzzleFinish")
-                    {
-                        uiText.text = "Press 'left mousebutton' to interact";
+                    //Sets isDragging to true
+                    isDragging = true;
+                    Debug.Log("target position :" + _draggableObject.transform.position);
 
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            CloseDoor(application, false);
+                    //Convert world position to screen position.
+                    screenPosition = Camera.main.WorldToScreenPoint(_draggableObject.transform.position);
+                    offset = _draggableObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z));
+                }
 
-                            foreach (GameObject puzzleContainer in puzzleContainers)
-                                if (puzzleContainer.name == "CenterApplication")
-                                    puzzleContainer.SetActive(false);
+                //Stops dragging when the player stops holding left mouse button
+                if (Input.GetMouseButtonUp(0))
+                {
+                    isDragging = false;
+                    _draggableObject.GetComponent<Rigidbody>().isKinematic = false;
+                }
 
-                            applicationPuzzleIsActive = false;
-                        }
-                    }
-                    else
-                        uiText.text = "";
+                uiText.text = "Press 'left mousebutton' to interact";
+
+                //If the player is dragging the mouse
+                if (isDragging)
+                {
+                    //track mouse position.
+                    Vector3 currentScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
+
+                    //convert screen position to world position with offset changes.
+                    Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + offset;
+
+                    //It will update target gameobject's current postion.
+                    _draggableObject.transform.position = currentPosition;
+
+                    _draggableObject.GetComponent<Rigidbody>().isKinematic = true;
+                }
+            }
+            else
+            {
+                isDragging = false;
+                uiText.text = "";
+            }
+        }
+
+        //Ends the puzzle
+        private void EndPuzzle(string _type, string _puzzle, ref bool _currentPuzzle)
+        {
+            CloseDoor(_type, false);
+
+            foreach (GameObject puzzleContainer in puzzleContainers)
+                if (puzzleContainer.name == _puzzle)
+                    puzzleContainer.SetActive(false);
+
+            _currentPuzzle = false;
+        }
+
+        //Sends a raycast
+        private GameObject ReturnRaycastGameobject()
+        {
+            //Shoots a raycast from the main camera
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, mouseRange))
+                return hitInfo.collider.gameObject;
+
+            return null;
+        }
+
+        //Checks whether to show the map
+        private void CheckToShowMap()
+        {
+            if(Input.GetKeyDown(KeyCode.M))
+            {
+                if (mazeMap.activeSelf)
+                {
+                    mazeMap.SetActive(false);
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    cameraController.EnableSensitivity();
                 }
                 else
-                    uiText.text = "";
+                {
+                    mazeMap.SetActive(true);
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    cameraController.DisableSensitivity();
+                }
             }
+        }
+
+        //Checks whether to show the map
+        private void CheckToShowPauseMenu()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (pauseMenu.activeSelf)
+                {
+                    pauseMenu.SetActive(false);
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    cameraController.EnableSensitivity();
+                    Time.timeScale = 1;
+                }
+                else
+                {
+                    pauseMenu.SetActive(true);
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.Confined;
+                    cameraController.DisableSensitivity();
+                    Time.timeScale = 0;
+                }
+            }
+        }
+
+        //Checks whether the player should teleport
+        private void CheckToTeleport()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                transform.position = new Vector3(-310, 1, 115);
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                transform.position = new Vector3(113, 1, 115);
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                transform.position = new Vector3(-120, 1, 350);
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                transform.position = new Vector3(-120, 1, -150);
         }
     }
 }
